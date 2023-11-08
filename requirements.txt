@@ -1,0 +1,6 @@
+openai
+markdown
+pygments
+flask
+pycryptodome
+python-dotenv
