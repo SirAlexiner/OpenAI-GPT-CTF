@@ -24,11 +24,11 @@ def get_gpt_response(temp_file, new_entry, model):
         }
 
         # Save the system role and the new entry to JSON and retrieve the entire thing
-        messages = data.save_and_retrive(Flag, new_entry)
+        messages = data.save_and_retrieve(Flag, new_entry)
 
     else:
         # Save the new entry to the json then retrieve the entire thing
-        messages = data.save_and_retrive(new_entry)
+        messages = data.save_and_retrieve(new_entry)
 
     # Create a OpenAI Chat Response using gpt-4 and the message variable
     # We set the temp and top_p low to prohibit creativity and the posibility that GPT give the flag.
