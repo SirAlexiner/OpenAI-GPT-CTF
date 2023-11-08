@@ -1,5 +1,18 @@
 /* This is just styling, but good on you for caring about fashion */
 
+@font-face {
+    font-family: 'GPTFont';
+    src: url('./gptfont.woff2') format('woff2');
+}
+
+.material-symbols-outlined {
+    font-variation-settings:
+    'FILL' 0,
+    'wght' 100,
+    'GRAD' 200,
+    'opsz' 16
+  }
+
 .hidden {
     display: none;
 }
@@ -17,12 +30,13 @@ div {
     color: rgb(217, 217, 227);
     line-height: 1.5rem;
     text-decoration: auto;
+    font-family: 'GPTFont', sans-serif;
 }
 
 body {
     min-height: 100vh;
     display: flex;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'GPTFont', sans-serif;
     background-color: rgb(52, 53, 65);
     overflow: hidden;
 
@@ -184,6 +198,63 @@ body {
     flex: 1;
     overflow-x: hidden;
     overflow-y: auto;
+}
+
+/* CSS to style the code block header */
+.code-block {
+    position: relative;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    border-radius: 0.375rem;
+
+}
+
+.code-block > pre {
+    margin: 0px !important;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+.code-block > pre::-webkit-scrollbar {
+    height: 5px;
+    background-color: transparent;
+}
+
+.code-block > pre::-webkit-scrollbar-thumb {
+    background-color: #b8b9c3;
+    border-radius: 10px;
+}
+
+.code-block > pre::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+.code-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem;
+    background-color: #333; /* Header background color */
+    color: white; /* Header text color */
+}
+
+.language {
+    font-size: 14px; /* Adjust font size of language identifier */
+    padding-left: 0.6rem;
+}
+
+.code-copy {
+    display: flex;
+    align-items: center;
+    font-size: 14px; /* Adjust font size of language identifier */
+    background-color: #333; /* Header background color */
+    color: white;
+    border: none;
+    padding: 0.3rem 0.6rem;
+    cursor: pointer;
+    transition: opacity 0.5s ease;
 }
 
 .chat-input-container {

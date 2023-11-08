@@ -1,11 +1,7 @@
-import markdown
 import json
 import tempfile
 import os
 import base64
-from pygments import highlight
-from pygments.lexers import get_lexer_by_name
-from pygments.formatters import HtmlFormatter
 from flask import Flask, stream_template, request, jsonify, session, Response
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import unpad, pad
@@ -35,60 +31,6 @@ def create_session_json():
     temp_file.close()
     with open(session['temp_json'], 'w') as json_file:
         json.dump([], json_file)
-
-# Function to highlight code (Just for fun and authenticity)
-def highlight_code_blocks(markdown_text):
-    html_result = ""
-    # Split the Markdown text into separate code blocks
-    try:
-        code_blocks = markdown_text.split('```')
-    except:
-        code_blocks = markdown_text
-
-    # Initialize a flag to alternate between code and non-code blocks
-    is_code_block = False
-
-    for i in range(len(code_blocks)):
-        if code_blocks[i]:
-            if is_code_block:
-                # Extract the language identifier (if available)
-                code_block = code_blocks[i]
-                code_block = code_block.replace('\n\n', '\n')
-                if len(code_block) > 1:
-                    lang = code_block[:8].strip().split('\n')[0]
-                    code_block = code_block.replace(lang, "$ " + lang, 1)
-                    if lang == '':
-                        lang = "text"
-                    # Create a lexer based on the language identifier
-                    try:
-                        lexer = get_lexer_by_name(lang)
-                    except:
-                        lexer = get_lexer_by_name('text')
-                    # Format Code as HTML with CSS Styling
-                    formatter = HtmlFormatter(style='monokai')
-                    highlighted_code = highlight(code_block, lexer, formatter)
-
-                    # Include the highlighted code within a code block
-                    html_result += highlighted_code
-                else:
-                    lang = "text"  # Default to "text" if no language identifier is provided
-                    # Create a lexer based on the language identifier
-                    lexer = get_lexer_by_name(lang, stripall=True)
-                    formatter = HtmlFormatter(style='monokai')
-                    highlighted_code = highlight(code_block, lexer, formatter)
-
-                    # Include the highlighted code within a code block
-                    html_result += highlighted_code
-            else:
-                # Treat non-code blocks as regular text¨
-                code_block = code_blocks[i]
-                code_block = code_block.replace('\n\n', '\n')
-                html_result += markdown.markdown(code_block)
-                # Toggle the code block flag for each iteration
-            is_code_block = not is_code_block
-
-    # Return the HTML text
-    return html_result
 
 # Specify Index route of the flask application
 @app.route('/')
@@ -175,13 +117,15 @@ def send():
             text = line.choices[0].delta.get('content', '')
             
             if len(text):
-                content += text
-                yield highlight_code_blocks(content)
-        
-        response = {
-            "role": "assistant",
-            "content": content
-        }
+                yield text
+
+            content += text
+
+            response = {
+                "role": "assistant",
+                "content": content
+            }
+
         data.save(response)
 
     return Response(event_stream(), mimetype='text/event-stream')
