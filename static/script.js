@@ -20,15 +20,15 @@ function appendMessage(message, messageType) {
     const messageDiv = document.createElement("div");
     messageDiv.className = messageType;
 
-    // Create elements for user/assistant avatars and message content
+    // Create elements for user avatar and message content
     const imageDiv = document.createElement("div");
     imageDiv.className = messageType + "-image";
     messageDiv.appendChild(imageDiv);
 
-    // Add user/assistant avatars
-    const botImage = document.createElement("img");
-    botImage.src = "../static/user-image.png"; // You might want to update this image source
-    imageDiv.appendChild(botImage);
+    // Add user avatar
+    const userImage = document.createElement("img");
+    userImage.src = "../static/user-image.png";
+    imageDiv.appendChild(userImage);
 
     const messageDivChild = document.createElement("div");
     messageDivChild.className = messageType + "-content";
@@ -178,7 +178,7 @@ async function handleUserInput() {
 
     if (userMessage !== "") {
         // Append the user message to the chat
-        appendMessage('<p>' + userMessage.replace(/\n/g, "<br>") + '</p>', "user-message");
+        appendMessage(formatToHTML(userMessage), "user-message");
         userInput.value = "";
         userInput.style.height = 'auto';
         userInput.style.overflowY = 'hidden';

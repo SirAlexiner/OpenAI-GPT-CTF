@@ -2,3 +2,4 @@ openai
 flask
 pycryptodome
 python-dotenv
+gunicorn
