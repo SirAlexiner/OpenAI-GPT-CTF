@@ -35,7 +35,7 @@ def get_gpt_response(temp_file, new_entry, model):
 
     # Create a OpenAI Chat Response using gpt-4 and the message variable
     # We set the temp and top_p low to prohibit creativity and the posibility that GPT give the flag.
-    response = openai.ChatCompletion.create(
+    response = openai.chat.completions.create(
     model=model,
     messages=messages,
     temperature=0.1,

@@ -15,7 +15,7 @@ from Crypto.Util.Padding import unpad, pad
 # Import OpenAI GPT file
 # We specify the AI model here
 import ai.gpt as gpt
-model = "gpt-4"
+model = "gpt-4o"
 
 # Load JSON Handling file
 import handler.json_handler as jsonHand
@@ -143,7 +143,7 @@ def send():
     # Decrypt the user input
     decrypted_message = decrypt_message(user_message)
 
-    # Define the actual supported roles for GPT-4 by OpenAI
+    # Define the actual supported roles for GPT-4o by OpenAI
     supported_roles = ['system', 'user']
 
     if 'role' in decrypted_message and decrypted_message['role'] not in supported_roles:
@@ -161,17 +161,18 @@ def send():
         content = ""
 
         for line in gpt_response:
-            text = line.choices[0].delta.get('content', '')
+            text = line.choices[0].delta.content
             
-            if len(text):
-                yield text
+            if not text == None:
+                if len(text):
+                    yield text
 
-            content += text
+                content += text
 
-            response = {
-                "role": "assistant",
-                "content": content
-            }
+                response = {
+                    "role": "assistant",
+                    "content": content
+                }
 
         data.save(response)
 
